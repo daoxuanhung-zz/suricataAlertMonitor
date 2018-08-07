@@ -31,7 +31,7 @@ while(True):
 			if (ipInfo['reportnumber'] >= 10):
 				with open('badip.txt', 'a') as f:
 					f.write(alert['ip_src'] + '\n')
-					
+
 		else:
 			print (Fore.GREEN + '\tNot marked as abuse' + Style.RESET_ALL)
 
@@ -39,7 +39,11 @@ while(True):
 		try:
 			print ('\tCountry: ' + location['country']['names']['en'] + ' - ' + location['city']['names']['en'])
 		except Exception as e:
-			print ('\tCountry: ' + location['country']['names']['en'])
+			try:
+				print ('\tCountry: ' + location['country']['names']['en'])
+			except Exception as e:
+				print ('Cannot get country name')
+			
 
 		print ()
 		line += 1
