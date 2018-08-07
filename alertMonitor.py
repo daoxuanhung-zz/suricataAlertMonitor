@@ -42,7 +42,7 @@ while(True):
 			try:
 				print ('\tCountry: ' + location['country']['names']['en'])
 			except Exception as e:
-				print ('Cannot get country name')
+				print ('\tCannot get country name')
 			
 
 		print ()

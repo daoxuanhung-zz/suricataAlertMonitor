@@ -13,7 +13,7 @@ class DatabaseAccess:
 		alert = {}
 
 		# get ipaddress_ID, signature_ID and time
-		self.datacursor.execute('SELECT * FROM `event` LIMIT ' + str(line - 1) + ' , 1');
+		self.datacursor.execute('SELECT * FROM `event` LIMIT ' + str(line - 1) + ' , 1 ORDER BY `timestamp` ASC');
 		for (event_sid, event_cid, event_signature, event_timestamp) in self.datacursor:
 			alert['timestamp'] = str(event_timestamp)
 
