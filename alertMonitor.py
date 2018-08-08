@@ -3,12 +3,11 @@ from geolite2 import geolite2
 import colorama
 from colorama import Fore, Back, Style
 import time
+import ipaddress
 from init import *
 import databaseaccess
-import AbuseDB
 
 data = databaseaccess.DatabaseAccess()
-abuse = AbuseDB.AbuseDB()
 
 print ()
 print ()
@@ -21,21 +20,22 @@ while(True):
     alert = data.getAlert(line)
 
     if (len(alert) > 0):
-        ipInfo = abuse.getSpamStatus(alert['ip_src'])
+        ipInfo = data.getIPInfo(alert['ip_src'])
 
-        print (Fore.YELLOW + alert['sensor'] + " - " + alert['timestamp'] + '\t' + alert['ip_src'] + '\t' + alert['signature'] + Style.RESET_ALL)
-        if (ipInfo['reportnumber'] > 0):
+        print (Fore.YELLOW + alert['sensor'] + " - " + alert['timestamp'] + '\t' + str(ipaddress.IPv4Address(alert['ip_src'])) + '\t' + alert['signature'] + Style.RESET_ALL)
+
+        if (int(ipInfo['reportnumber']) > 0):
             print (Fore.RED + '\tMarked as abuse with ' + Fore.GREEN + str(ipInfo['reportnumber']) + Fore.RED + ' times in last 30 days.')
             print ('\tAbuse category: ' + ipInfo['cate_str'] + Style.RESET_ALL)
 
-            if (ipInfo['reportnumber'] >= 10):
+            if (int(ipInfo['reportnumber']) >= 10):
                 with open('badip.txt', 'a') as f:
-                    f.write(alert['ip_src'] + '\n')
+                    f.write(str(ipaddress.IPv4Address(alert['ip_src'])) + '\n')
 
         else:
             print (Fore.GREEN + '\tNot marked as abuse' + Style.RESET_ALL)
 
-        location = reader.get(alert['ip_src'])
+        location = reader.get(str(ipaddress.IPv4Address(alert['ip_src'])))
         try:
             print ('\tCountry: ' + location['country']['names']['en'] + ' - ' + location['city']['names']['en'])
         except Exception as e:

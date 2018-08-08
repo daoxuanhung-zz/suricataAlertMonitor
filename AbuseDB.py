@@ -1,11 +1,12 @@
 import requests
 import json
+import ipaddress
 from init import *
 
 class AbuseDB:
 
-    def getSpamStatus(self, ipaddress):
-        response = requests.get('https://www.abuseipdb.com/check/' + str(ipaddress) + '/json?key=' + str(config['abusedb']['ApiKey']) + '&verbose&days=30')
+    def getSpamStatus(self, ip):
+        response = requests.get('https://www.abuseipdb.com/check/' + str(ipaddress.IPv4Address(ip)) + '/json?key=' + str(config['abusedb']['ApiKey']) + '&verbose&days=30')
         data = json.loads(response.content.decode())
         reportnumber = 0
 
@@ -26,8 +27,10 @@ class AbuseDB:
             reportnumber = len (data)
             if (reportnumber > 0):
                 for item in data:
-                    for cat in item['category']:
-                        cate.append(cat)
+                	if 'category' in item:
+	                    for cat in item['category']:
+	                        cate.append(cat)
+	                        
                 cate = unique(cate)
                 for c in cate:
                     cate_str = cate_str + ' - ' + categories[str(c)]
