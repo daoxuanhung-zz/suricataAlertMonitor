@@ -28,10 +28,6 @@ while(True):
             print (Fore.RED + '\tMarked as abuse with ' + Fore.GREEN + str(ipInfo['reportnumber']) + Fore.RED + ' times in last 30 days.')
             print ('\tAbuse category: ' + ipInfo['cate_str'] + Style.RESET_ALL)
 
-            if (int(ipInfo['reportnumber']) >= 10):
-                with open('badip.txt', 'a') as f:
-                    f.write(str(ipaddress.IPv4Address(alert['ip_src'])) + '\n')
-
         else:
             print (Fore.GREEN + '\tNot marked as abuse' + Style.RESET_ALL)
 

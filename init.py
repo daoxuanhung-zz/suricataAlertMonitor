@@ -68,6 +68,9 @@ config = verifyConfig()
 
 
 categories = {}
+categories['0'] = 'Unknown'
+categories['1'] = 'Unknown'
+categories['2'] = 'Unknown'
 categories['3'] = 'Fraud Orders'
 categories['4'] = 'DDoS Attack'
 categories['5'] = 'FTP Brute-Force'

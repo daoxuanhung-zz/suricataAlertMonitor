@@ -50,7 +50,7 @@ class DatabaseAccess:
             for (ipadd, lastcheck, reports, categories) in self.datacursor:
                 current_date = datetime.now()
                 diff = current_date - lastcheck
-                if (diff.days <= 15):
+                if (diff.days < 5):
                 	# if info was updated in a month
                     ipInfo = {}
                     ipInfo['reportnumber'] = reports
